@@ -88,6 +88,52 @@ The attribute name that comes after the : specifies the attribute we’re bindin
 Inside the attribute’s quotes, we reference the data we’re binding to.
  ""안에 속성은 데이터의 바인딩을 참조함
 
- 
+
+
+3️⃣<<Conditional Rendering>>
+<body>
+    <div id="app">
+        <div class="product-image">
+
+            <img v-bind:src="image" alt="">
+        </div>
+        <div class="product-info">
+            <h1>{{ product }}</h1>
+            <p v-if="stock > 10">재고있음</p>
+            요소의 값으로 조건부를 정해서 true이면 보이고 false이면 요소를 dom에서 삭제한다.
+            요소와 조건식을 같이 쓸수 있다.
+            <p v-else-if="stock <=8 && stock > 7">재고8개있음</p>
+            <p v-else>재고없음</p>
+
+            <p v-show="stock">쑈우</p>
+            참일때 보이고 거짓일때 안보이는것 if문과 같지만 DOM에서는 css로 display:none을 준다. 
+            즉 요소가 삭제 되는게 아니라 보이지만 않게 하는것
+        </div>
+    </div>
+    <script>
+        var app = new Vue({
+            el: '#app',
+
+            data: {
+                product: 'Socks',
+                image: '이미지주소',
+                stock: 0,
+            },
+        });
+    </script>
+</body>
+정리 ->
+조건부 렌더링을 사용할수 있다
+v-if
+v-else-if
+v-else
+v-show
+
+If whatever is inside the directive’s quotes is truthy, the element will display.
+따옴표에 지시문이 진실이면 요소가 표시됨
+You can use expressions inside the directive’s quotes.
+지시문의 따옴표안에 표현식을 사용할 수 있다.
+V-show only toggles visibility, it does not insert or remove the element from the DOM.
+show는 가시성을 전환 할 뿐이고, DOM에서 요소를 삭제/추가 하지  
 
 
