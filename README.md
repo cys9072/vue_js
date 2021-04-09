@@ -136,4 +136,68 @@ You can use expressions inside the directive’s quotes.
 V-show only toggles visibility, it does not insert or remove the element from the DOM.
 show는 가시성을 전환 할 뿐이고, DOM에서 요소를 삭제/추가 하지  
 
+하.... 6강까지 봤는데.. 다 날라갔다 자료... 다시 하자,....
+
+4️⃣<<Conditional Rendering>>
+    <body>
+    <div id="app">
+        <div class="product-image">
+
+            <img v-bind:src="image" alt="" style="width:100px;">
+        </div>
+        <div class="product-info">
+            <h1>{{ product }}</h1>
+            <p v-if="inStock">재고있음</p>
+            <p v-else>재고없음</p>
+
+            <ul>
+                <li v-for="detail in details">{{detail}}</li>
+                <!-- A in As 라는 표현식이고 v-for라는 표현식은 반복해준다.
+                A는 As라는 객체의 별명 또는 닉네임이다. 즉 As의 객체가 A로 들어간다
+                이떄 As를 컬렉션 이라고도 부른다
+                그래서 중복 중괄호안에 A를 써서 문자열을 반복 할 수 있다. -->
+            </ul>
+
+            <div v-for="varient in varients" v-bind:key="varient.varientId">
+                이렇게 반복을 쓸때 특수 key 속성을 사용하여 vue는 각각의 노드의 id를 추적할수 있게 만듭니다. 
+                여기서는 key를 varient.varientId 에 바인딩 합니다
+                <p>{{varient.varientTech}}</p>
+            </div>
+        </div>
+    </div>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                product: '나루토',
+                image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Naruto_logo.svg/1024px-Naruto_logo.svg.png',
+                inStock: true,
+                details: ['나루토', '사스케', '카카시'],
+
+                varients: [{
+                        varientId: 2234,
+                        varientTech: "나선한"
+                    },
+                    {
+                        varientId: 2235,
+                        varientTech: "치도리"
+                    }
+                ]
+            }
+        });
+    </script>
+</body>
+
+정리->
+The v-for directive allows us to iterate over an array to display data.
+v-for 지시문을 사용하면 배열을 반복하여 데이터를 표시 할 수 있다.
+
+We use an alias for the element in the array being iterated on, and specify the name of the array we are looping through. Ex: v-for="item in items"
+반복되는 배열의 요소에 별명을 사용하고, 반복되는 배열의 이름으로 저장함. ex> v-for = A in As
+
+We can loop over an array of objects and use dot notation to display values from the objects.
+객체의 배열을 반복할수 있고, 점 표기법을 사용해서 객체의 값을 표시 할 수 있다.
+
+When using v-for it is recommended to give each rendered element its own unique key.
+v-for를 사용할 때 렌더링된 각 요소에 고유한 키를 제공하는걸 매우매우 추천함
 
