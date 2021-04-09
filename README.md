@@ -138,7 +138,7 @@ show는 가시성을 전환 할 뿐이고, DOM에서 요소를 삭제/추가 하
 
 하.... 6강까지 봤는데.. 다 날라갔다 자료... 다시 하자,....
 
-4️⃣<<Conditional Rendering>>
+4️⃣<<list Rendering>>
     <body>
     <div id="app">
         <div class="product-image">
