@@ -312,4 +312,244 @@ this refers to the current Vue instance’s data as well as other methods declar
 'this'는 현재 vue인스턴스의 데이터와ㅏ 인스턴스 내부에 선언된 다른 메소드를 참조함.
 </html>
 
-6️⃣<<Event Handling>>
+6️⃣<<Class & Style Binding>>
+
+<body>
+    <div id="app">
+        <div class="product-image">
+
+            <img v-bind:src="image" alt="" style="width:100px;">
+        </div>
+        <div class="product-info">
+            <h1>{{ product }}</h1>
+            <p v-if="inStock">재고있음</p>
+            <p v-else>재고없음</p>
+
+            <ul>
+                <li v-for="detail in details">{{detail}}</li>
+            </ul>
+
+            <img :src="imageSecond" alt="" style="width:100px;">
+
+            <div v-for="varient in varients" v-bind:key="varient.varientId" class="color-box"
+                :style="{backgroundColor: varient.varientColor}">
+                <!-- 바인딩해서 백그라운드 컬러바꾸기, 이때 컬러는  인스턴스 안의 값을 가져왔다.  -->
+                <!-- 카멜표기법 :style="{fontSize : fontSize}" or
+                케밥표기법 :style="{'font-size' : fontSize}" ' '안에 attribute를 넣어준다 -->
+                <!-- 
+                <span :style="프로퍼티전체" 프로퍼티 전체를 가지고 올수 있다>
+                </span>
+
+                <span :style="[프로퍼티전체1,프로퍼티전체2]""
+                여러 프로퍼티를 배열로 가지고 올 수 있다>
+                </span> -->
+
+                <p @mouseover=" imgOver(varient.varientImg)">{{varient.varientTech}}</p>
+            </div>
+        </div>
+
+        <div>
+            <ul>
+                <li v-for="마을 in 마을s">{{마을.마을이름}}</li>
+            </ul>
+        </div>
+
+        <div>
+            <p>라면{{라면갯수}}</p>
+        </div>
+
+        <button v-on:click="noodleUp">클릭</button>
+        <button @click="noodleUp" :disabled="!inStock" :class="{ disableBtn: !inStock}">클릭</button>
+        :disabled="!inStock"
+        버튼이 false의 값을 갖는다면
+
+        :class="{ disableBtn: !inStock}"
+        클래스를 바인딩 해서 그 클래스의 값으로 css를 적용한다. 
+    </div>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                imageSecond: "",
+                product: '나루토',
+                image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Naruto_logo.svg/1024px-Naruto_logo.svg.png',
+                inStock: 0,
+                details: ['나루토', '사스케', '카카시'],
+
+                varients: [{
+                        varientId: 2234,
+                        varientTech: "나선한",
+                        varientImg: "https://images.unsplash.com/photo-1593642634402-b0eb5e2eebc9?ixid=MXwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2550&q=80",
+                        varientColor: 'red',
+                    },
+                    {
+                        varientId: 2235,
+                        varientTech: "치도리",
+                        varientImg: "https://images.unsplash.com/photo-1617895601040-32cf8ed00eeb?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2550&q=80",
+                        varientColor: 'blue',
+                    }
+                ],
+
+                마을s: [{
+                        나뭇잎마을Id: 1234,
+                        마을이름: "나뭇잎마을이다"
+                    },
+                    {
+                        안개마을Id: 1235,
+                        마을이름: "안개마을이다"
+                    }
+                ],
+                라면갯수: 0,
+            },
+            methods: {
+                noodleUp: function () {
+                    this.라면갯수 += 1;
+                },
+
+                imgOver(varientImg) {
+                    this.imageSecond = varientImg;
+                },
+            }
+        });
+    </script>
+</body>
+
+정리->
+
+Data can be bound to an element’s style attribute
+데이터는 요소의 스타일에 바인딩 될 수 있다. 
+
+Data can be bound to an element’s class
+데이터는 요소의 클래스에 바인딩 할 수 있다. 
+
+We can use expressions inside an element’s class binding to evaluate whether a class should appear or not
+요소의 클래스 바인딩안에서 표현식을 사용해서, 클래스가 표시되어야 하는지 여부를 평가 할 수 있다.
+
+You can bind an entire class object or array of classes to an element
+전체 클래스, 객체, 클래스배열을 요소에 바인딩 할 수 있다. 
+
+예)
+:class="classObject"
+:class="[activeClass, errorClass]"
+
+</html>
+
+7️⃣<<Computed Properties>>
+   <body>
+    <div class="nav-bar"></div>
+
+    <div id="app">
+
+        <div class="product">
+
+            <div class="product-image">
+                <img :src="image" style="width: 100px;">
+            </div>
+
+            <div class="product-info">
+                <h1>{{ title }}</h1>
+                <p v-if="inStock">In Stock</p>
+                <p v-else>Out of Stock</p>
+
+                <ul>
+                    <li v-for="detail in details">{{ detail }}</li>
+                </ul>
+
+
+                <div class="color-box" v-for="(variant, index) in variants" :key="variant.variantId"
+                    :style="{ backgroundColor: variant.variantColor }" @mouseover="updateProduct(index)">
+                </div>
+
+                <button v-on:click="addToCart" :disabled="!inStock" :class="{ disabledButton: !inStock }">
+                    Add to cart
+                </button>
+
+                <div class="cart">
+                    <p>Cart({{ cart }})</p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                product: 'Socks',
+                brand: 'Vue Mastery',
+                selectedVariant: 0,
+                details: ['80% cotton', '20% polyester', 'Gender-neutral'],
+                variants: [{
+                        variantId: 2234,
+                        variantColor: 'green',
+                        variantImage: 'https://www.vuemastery.com/images/challenges/vmSocks-green-onWhite.jpg',
+                        variantQuantity: 10
+                    },
+                    {
+                        variantId: 2235,
+                        variantColor: 'blue',
+                        variantImage: 'https://www.vuemastery.com/images/challenges/vmSocks-blue-onWhite.jpg',
+                        variantQuantity: 0
+                    }
+                ],
+                cart: 0
+            },
+            methods: {
+                addToCart: function () {
+                    this.cart += 1
+                },
+                updateProduct: function (index) {
+                    this.selectedVariant = index
+                    console.log(index)
+                }
+            },
+            computed: {
+                title() {
+                    return this.brand + ' ' + this.product
+                },
+                image() {
+                    return this.variants[this.selectedVariant].variantImage
+                },
+                inStock() {
+                    return this.variants[this.selectedVariant].variantQuantity
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
+
+정리 ->
+Computed properties calculate a value rather than store a value
+computed 프로퍼티는 값을 저장하지 않고 계산 된 결과를 보여준다. 
+
+Computed properties calculate a value rather than store a value.
+computed 프로퍼티는 앱의 데이터를 사용하여 값을 계산할 수 있다
+
+
+****************************************************************
+Computed properties are cached, meaning the result is saved until its dependencies change.
+ So when quantity changes, the cache will be cleared and the **next time you access the value of inStock ,
+  it will return a fresh result, and cache that result.
+
+computed 프로퍼티는 캐쉬된다. 속성이 변경 되기 전까지 결과가 저장된다. 
+quanity가 변경되면 캐쉬가 지워지고 다음에 inStock 값에 엑세스 하면 새로운 결과가 반환되고
+해당 결과가 다시 캐쉬된다.
+
+With that in mind,
+it’s more efficient to use a computed property rather than a method for an expensive operation
+that you don’t want to re-run every time you access it.
+이를 염두해두고 엑세스 할 때마다 다시 실행 하고 싶지 않은 값 비싼 작업에 대한 방법보다 
+계산 된 속성을 사용하는 것이 더 효율적이다. 
+
+It is also important to remember that
+you should not be mutating your data model from within a computed property.
+You are merely computing values based on other values. Keep these functions pure.
+계산된 속성내에서 데이터 모델을 변경해서는 안된다. 
+다른 값을 기반으로 값을 계산하여야 한다. 
+    
+    
+    
