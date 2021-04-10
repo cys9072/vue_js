@@ -4,7 +4,8 @@ vue_js 개념,문법 정리 공부
 🔴 vue_js는 기본적인 html css js의 기본수준이 중간레벨을 하는정도로 기준을 잡고 시작해야함. 그래서 기본적인 문법만 아는 본인은 js복습겸 심화학습을 병행 하면서 공부할예정. 
 🔴 유튜브나 기타 다른 기초강의를 찾아봤으나 일단 vue_js공식사이트에서 제공하는 https://www.vuemastery.com/courses/intro-to-vue-js/vue-instance/ 에서 기본적인 학습을 한후에 다시 
     한국어 강의를 들을예정. 영어를 그렇게 잘하는건 아님.. 영어자막을 켜놓고 모르는 단어가 나오면 그때그때 찾아서 해결해 볼예정. 100%흡수보단 50%까지만 흡수하자고 생각하고 공부
-   🟢총 10개 강의이며 하루만에 다 볼수 있을듯함. 2021.04.06 첫 시작.
+   🟢총 10개 강의이며 하루만에 다 볼수 있을듯함. 2021.04.06 첫 시작. 했지만....
+   다른 과제랑 같이 해야되서 4.11일까지 하기로함..
    
 🔴 설치 및 스크립트 넣는 법은 구글링해서 간단히 나오니 따로 설명 x
 
@@ -134,7 +135,7 @@ If whatever is inside the directive’s quotes is truthy, the element will displ
 You can use expressions inside the directive’s quotes.
 지시문의 따옴표안에 표현식을 사용할 수 있다.
 V-show only toggles visibility, it does not insert or remove the element from the DOM.
-show는 가시성을 전환 할 뿐이고, DOM에서 요소를 삭제/추가 하지  
+show는 가시성을 전환 할 뿐이고, DOM에서 요소를 삭제/추가 하지 않는다
 
 하.... 6강까지 봤는데.. 다 날라갔다 자료... 다시 하자,....
 
@@ -176,7 +177,7 @@ show는 가시성을 전환 할 뿐이고, DOM에서 요소를 삭제/추가 하
 
                 varients: [{
                         varientId: 2234,
-                        varientTech: "나선한"
+                        varientTech: "나선환"
                     },
                     {
                         varientId: 2235,
@@ -201,3 +202,114 @@ We can loop over an array of objects and use dot notation to display values from
 When using v-for it is recommended to give each rendered element its own unique key.
 v-for를 사용할 때 렌더링된 각 요소에 고유한 키를 제공하는걸 매우매우 추천함
 
+
+5️⃣<<Event Handling>>
+    <body>
+    <div id="app">
+        <div class="product-image">
+
+            <img v-bind:src="image" alt="" style="width:100px;">
+        </div>
+        <div class="product-info">
+            <h1>{{ product }}</h1>
+            <p v-if="inStock">재고있음</p>
+            <p v-else>재고없음</p>
+
+            <ul>
+                <li v-for="detail in details">{{detail}}</li>
+            </ul>
+
+            <img :src="imageSecond" alt="" style="width:100px;">
+
+            <div v-for="varient in varients" v-bind:key="varient.varientId">
+                <p @mouseover="imgOver(varient.varientImg)">{{varient.varientTech}}</p>
+            </div>
+        </div>
+
+        <div>
+            <ul>
+                <li v-for="마을 in 마을s">{{마을.마을이름}}</li>
+            </ul>
+        </div>
+
+        <div>
+            <p>라면{{라면갯수}}</p>
+        </div>
+
+        <button v-on:click="noodleUp">클릭</button>
+        <button @click="noodleUp">클릭</button>
+        <!-- 이벤트 수신을 받는 v-on지시문이 있다. 클릭을 했을때 noodleUp이라는 함수를 찾아간다 -->
+        <!-- v-on:    =   @ 으로 대체할수 있다 -->
+    </div>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                imageSecond: "",
+                product: '나루토',
+                image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Naruto_logo.svg/1024px-Naruto_logo.svg.png',
+                inStock: true,
+                details: ['나루토', '사스케', '카카시'],
+
+                varients: [{
+                        varientId: 2234,
+                        varientTech: "나선한",
+                        varientImg: "https://images.unsplash.com/photo-1593642634402-b0eb5e2eebc9?ixid=MXwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2550&q=80",
+                    },
+                    {
+                        varientId: 2235,
+                        varientTech: "치도리",
+                        varientImg: "https://images.unsplash.com/photo-1617895601040-32cf8ed00eeb?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2550&q=80",
+                    }
+                ],
+
+                마을s: [{
+                        나뭇잎마을Id: 1234,
+                        마을이름: "나뭇잎마을이다"
+                    },
+                    {
+                        안개마을Id: 1235,
+                        마을이름: "안개마을이다"
+                    }
+                ],
+                라면갯수: 0,
+            },
+            methods: {
+                noodleUp: function () {
+                    this.라면갯수 += 1;
+                },
+
+                imgOver(varientImg) {
+                    this.imageSecond = varientImg;
+                },
+            }
+        });
+    </script>
+</body>
+
+정리->
+The v-on directive is used to allow elements to listen for events
+v-on 지시문은 요소가 이벤트를 수신하도록 허용하는데 사용된다. 
+
+The shorthand for v-on is @
+v-on: 은 @로 대체할수 있다
+
+You can specify the type of event to listen for:
+    click
+    mouseover
+    any other DOM event
+
+수신할 이벤트를 정할수 있다.
+
+The v-on directive can trigger a method
+v-on 지시문은 메소드를 트리거 할 수 있다. 
+
+Triggered methods can take in arguments
+트리거된 메소드는 인수를 받을 수 있다. 
+
+this refers to the current Vue instance’s data as well as other methods declared inside the instance
+
+'this'는 현재 vue인스턴스의 데이터와ㅏ 인스턴스 내부에 선언된 다른 메소드를 참조함.
+</html>
+
+6️⃣<<Event Handling>>
